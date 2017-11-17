@@ -1,0 +1,111 @@
+package com.happy.me.dataaccess.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
+public class MerchantRule extends ModificationAudit implements IEntity{
+
+
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	private Long star5;
+	
+	private Long star4;
+	
+	private Long star3;
+	
+	private Long star2;
+	
+	private Long star1;
+
+	private Long max;
+	
+	private Long min;
+	
+	private Long point;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getStar5() {
+		return star5;
+	}
+
+	public void setStar5(Long star5) {
+		this.star5 = star5;
+	}
+
+	public Long getStar4() {
+		return star4;
+	}
+
+	public void setStar4(Long star4) {
+		this.star4 = star4;
+	}
+
+	public Long getStar3() {
+		return star3;
+	}
+
+	public void setStar3(Long star3) {
+		this.star3 = star3;
+	}
+
+	public Long getStar2() {
+		return star2;
+	}
+
+	public void setStar2(Long star2) {
+		this.star2 = star2;
+	}
+
+	public Long getStar1() {
+		return star1;
+	}
+
+	public void setStar1(Long star1) {
+		this.star1 = star1;
+	}
+
+	public Long getMax() {
+		return max;
+	}
+
+	public void setMax(Long max) {
+		this.max = max;
+	}
+
+	public Long getMin() {
+		return min;
+	}
+
+	public void setMin(Long min) {
+		this.min = min;
+	}
+
+	public Long getPoint() {
+		return point;
+	}
+
+	public void setPoint(Long point) {
+		this.point = point;
+	}
+	
+	
+	
+	
+}

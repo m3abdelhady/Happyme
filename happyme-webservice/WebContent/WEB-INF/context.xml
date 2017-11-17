@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context allowCasualMultipartParsing="true" >
+    <Resources cachingAllowed="true" cacheMaxSize="10000000" />
+</Context>
+
+
