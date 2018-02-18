@@ -4,7 +4,7 @@ public enum RoleKey {
 
 	ADMIN("ADMIN", "Admin"),
 	RESELLER("RESELLER", "Reseller"), 
-	MANAGER("MANAGER", "Store Manager"), 
+	MERCHANT("MERCHANT", "Merchant Manager"), 
 	AGENT("AGENT", "Store Agent"),
 	USER("USER", "User");
 

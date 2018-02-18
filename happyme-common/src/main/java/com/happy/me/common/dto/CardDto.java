@@ -9,6 +9,28 @@ public class CardDto implements BaseDto {
 	private Long point;
 	
 	private Long star;
+	
+	private String cardNumber;
+
+	private Double amount;
+	
+	private Double redeemedAmount;
+	
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public Double getRedeemedAmount() {
+		return redeemedAmount;
+	}
+
+	public void setRedeemedAmount(Double redeemedAmount) {
+		this.redeemedAmount = redeemedAmount;
+	}
 
 	public Long getMerchantId() {
 		return merchantId;
@@ -32,6 +54,14 @@ public class CardDto implements BaseDto {
 
 	public void setStar(Long star) {
 		this.star = star;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 	
 	

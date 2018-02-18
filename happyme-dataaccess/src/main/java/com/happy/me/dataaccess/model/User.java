@@ -70,6 +70,17 @@ public class User extends ModificationAudit implements IEntity {
 	
 	private String nationality;
 	
+	public User() {
+		super();
+	}
+	
+	public User(Long id) {
+		super();
+		this.id = id;
+	}
+
+
+
 	public String getCpr() {
 		return cpr;
 	}

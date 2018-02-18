@@ -31,6 +31,13 @@ public class MerchantDto implements BaseDto {
 	
 	private List<AddressDto> addressDtos;
 	
+    private double mrc;
+
+    private double outStanding;
+    
+    private double creditLimit;
+    
+	
 
 	public MerchantDto(Long id) {
 		super();
@@ -135,6 +142,30 @@ public class MerchantDto implements BaseDto {
 
 	public List<AddressDto> getAddressDtos() {
 		return addressDtos;
+	}
+
+	public double getMrc() {
+		return mrc;
+	}
+
+	public void setMrc(double mrc) {
+		this.mrc = mrc;
+	}
+
+	public double getOutStanding() {
+		return outStanding;
+	}
+
+	public void setOutStanding(double outStanding) {
+		this.outStanding = outStanding;
+	}
+
+	public double getCreditLimit() {
+		return creditLimit;
+	}
+
+	public void setCreditLimit(double creditLimit) {
+		this.creditLimit = creditLimit;
 	}
 
 	public void setAddressDtos(List<AddressDto> addressDtos) {

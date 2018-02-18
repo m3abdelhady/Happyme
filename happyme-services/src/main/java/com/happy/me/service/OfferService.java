@@ -22,4 +22,8 @@ public interface OfferService {
 	public void deleteOffer(Long offerid) throws ServiceException;
 
 	public void deleteOfferImage(Long imageId) throws ServiceException;
+
+	public OfferDto getOffer(Long offerId) throws ServiceException;
+
+	public List<OfferDto> getMerchantActiveOffer(Long merchantId) throws ServiceException;
 }

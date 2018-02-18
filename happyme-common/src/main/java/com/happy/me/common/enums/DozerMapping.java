@@ -7,7 +7,15 @@ public enum DozerMapping {
     MERCHANTRULE_VS_MERCHANTRULEDTO("MerchantRuleVsMerchantRuleDto"),
     APPFEEDBACK_VS_APPFEEDBACKDTO("AppFeedbackVsAppFeedbacKDto"),
     INFO_USER_VS_USERDTO("Info_UserVsUserDto"), 
-    FEEDBACK_VS_FEEDBACKDTO("FeedbackVsFeedbackdto")
+    FEEDBACK_VS_FEEDBACKDTO("FeedbackVsFeedbackdto"),
+    COUPONS_VS_COUPONSDTO("CouponsVsCouponsdto"),
+    USERCARD_VS_USERCARDDTO("UserCardVsUserCardDto"),
+    CARDSUMMARY_VS_CARDSUMMARYDTO("CardSummaryVSCardSummaryDto"),
+    LIGHT_MERCHANT_VS_MERCHANTDTO("Light_MerchantVsMerchantDto"),
+    BILLHEADER_VS_BILLHEADERDTO("BillHeaderVsBillHeaderDto"), 
+    CREDITDEBIT_VS_CREDITDEBITDTO("CreditDebitVsCreditDebitDto"), 
+
+    
 
     ;
 

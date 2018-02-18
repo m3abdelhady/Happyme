@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 import com.happy.me.business.UserBusiness;
 import com.happy.me.business.exception.BusinessException;
 import com.happy.me.common.dto.AppFeedbackDto;
+import com.happy.me.common.dto.MerchantDto;
 import com.happy.me.common.dto.UserDto;
 import com.happy.me.common.enums.DozerMapping;
+import com.happy.me.common.enums.RoleKey;
 import com.happy.me.common.util.DozerHelper;
 import com.happy.me.dataaccess.model.AppFeedback;
+import com.happy.me.dataaccess.model.Merchant;
 import com.happy.me.dataaccess.model.User;
 import com.happy.me.dataaccess.repository.AppFeedbackRepository;
 import com.happy.me.dataaccess.repository.UserRepository;
@@ -82,7 +85,7 @@ public class UserBusinessImpl implements UserBusiness {
 			Optional<User> user = userRepository.findByEmailIgnoreCase(email);
 			UserDto dto = null;
 			if (user.isPresent()) {
-				dto = mapper.map(user.get(), UserDto.class);
+				dto = mapper.map(user.get(), UserDto.class, DozerMapping.USER_VS_USERDTO.getKey());
 			}
 			return Optional.ofNullable(dto);
 		} catch (Exception e) {
@@ -142,11 +145,137 @@ public class UserBusinessImpl implements UserBusiness {
 			UserDto dto = null;
 			if (user.isPresent()) {
 				dto = mapper.map(user.get(), UserDto.class);
+				MerchantDto merchantDto = null;
+				if (user.get().getMerchant() != null) {
+					merchantDto = mapper.map(user.get().getMerchant(), MerchantDto.class, DozerMapping.MERCHANT_VS_MERCHANTDTO.getKey());
+				}
+				dto.setMerchantDto(merchantDto);
 			}
+			
 			return Optional.ofNullable(dto);
 		} catch (Exception e) {
 			throw new BusinessException("Exception while getting user by id : " + id, e);
 		}
+	}
+
+
+	@Override
+	public MerchantDto getUserMerchantById(Long id) throws BusinessException {
+		try {
+			Optional<User> user = userRepository.findById(id);
+			MerchantDto merchantDto = null;
+			if (!user.isPresent()) {
+				return null;
+			}
+			if (user.get().getMerchant() != null) {
+				merchantDto = mapper.map(user.get().getMerchant(), MerchantDto.class, DozerMapping.MERCHANT_VS_MERCHANTDTO.getKey());
+			}
+			
+			return merchantDto;
+		} catch (Exception e) {
+			throw new BusinessException("Exception while getting user by id : " + id, e);
+		}
+	}
+
+
+	@Override
+	public void updateUserPassword(UserDto userDto) throws BusinessException {
+		try {
+			Optional<User> user = userRepository.findById(userDto.getId());
+			user.get().setPassword(userDto.getPassword());
+			userRepository.save(user.get());
+		} catch (Exception e) {
+			throw new BusinessException("Exception while getting user " );
+		}
+		
+	}
+
+
+	@Override
+	public List<UserDto> getListUserByRole(RoleKey key) throws BusinessException {
+		try {
+			List<User> users = userRepository.getListUserByRole(key);
+			List<UserDto> dtos = null;
+			if (users != null) 
+				dtos = DozerHelper.map(mapper, users, UserDto.class, DozerMapping.USER_VS_USERDTO.getKey());
+			return dtos;
+		} catch (Exception e) {
+			throw new BusinessException("Exception while getting user  " , e);
+		}
+	}
+
+
+	@Override
+	public void deleteReseller(Long resellerId) throws BusinessException {
+		try {
+			List<User> users = userRepository.getCreatedUserById(new User(resellerId));
+			users.forEach(u -> {
+				u.setCreatedBy(null);
+			});
+			userRepository.save(users);
+			userRepository.delete(resellerId);
+		} catch (Exception e) {
+			throw new BusinessException("Exception while delete user", e);
+		}
+		
+	}
+
+
+	@Override
+	public List<UserDto> getPendingMerchant() throws BusinessException {
+		try {
+			List<User> users = userRepository.getPendingMerchant();
+			List<UserDto> dtos = null;
+			if (users != null) 
+				dtos = DozerHelper.map(mapper, users, UserDto.class, DozerMapping.USER_VS_USERDTO.getKey());
+			return dtos;
+		} catch (Exception e) {
+			throw new BusinessException("Exception while getting user " , e);
+		}
+	}
+
+
+	@Override
+	public List<UserDto> getPendingMerchant(Long userId) throws BusinessException {
+		try {
+			
+			List<User> users = userRepository.getPendingMerchant(new User(userId));
+			List<UserDto> dtos = null;
+			if (users != null) 
+				dtos = DozerHelper.map(mapper, users, UserDto.class, DozerMapping.USER_VS_USERDTO.getKey());
+			return dtos;
+		} catch (Exception e) {
+			throw new BusinessException("Exception while getting user " , e);
+		}
+	}
+
+
+	@Override
+	public void assignUserToMerchant(Long merchantId, Long userId) throws BusinessException {
+		try {
+			Merchant merchant = new Merchant(merchantId);
+			Optional<User> user = userRepository.getAdminUserforMerchant(merchant);
+			user.get().setCreatedBy(userRepository.findOne(userId));
+			userRepository.save(user.get());
+			
+		} catch (Exception e) {
+			throw new BusinessException("Exception while getting user " , e);
+		}
+		
+	}
+
+
+	@Override
+	public void assignUserToPendingMerchant(Long ownerId, Long userId) throws BusinessException {
+		try {
+			Optional<User> user = userRepository.findById(ownerId);
+			user.get().setCreatedBy(userRepository.findOne(userId));
+			userRepository.save(user.get());
+			
+		} catch (Exception e) {
+			throw new BusinessException("Exception while getting user " , e);
+		}
+		
 	}
 
 	

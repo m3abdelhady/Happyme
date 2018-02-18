@@ -2,6 +2,8 @@ package com.happy.me.common.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class AppFeedbackDto implements BaseDto{
 
 
@@ -13,6 +15,7 @@ public class AppFeedbackDto implements BaseDto{
 
 	private UserDto userDto;
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
 	private Date created;
 
 	public Long getId() {

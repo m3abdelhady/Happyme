@@ -1,29 +1,28 @@
 package com.happy.me.common.rest;
 
-import java.util.List;
-
 import com.happy.me.common.dto.OfferDto;
 
 public class OfferResponse {
 	
-	List<OfferDto> offerDtos;
+	OfferDto offerDto;
 	
 	public OfferResponse() {
 		super();
 	}
 
-	public OfferResponse(List<OfferDto> offerDtos) {
+	public OfferResponse(OfferDto offerDto) {
 		super();
-		this.offerDtos = offerDtos;
+		this.offerDto = offerDto;
 	}
 
-	public List<OfferDto> getOfferDtos() {
-		return offerDtos;
+	public OfferDto getOfferDto() {
+		return offerDto;
 	}
 
-	public void setOfferDtos(List<OfferDto> offerDtos) {
-		this.offerDtos = offerDtos;
+	public void setOfferDto(OfferDto offerDto) {
+		this.offerDto = offerDto;
 	}
+
 	
 	
 

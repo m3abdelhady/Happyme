@@ -31,7 +31,13 @@ public class MerchantRule extends ModificationAudit implements IEntity{
 	
 	private Long min;
 	
-	private Long point;
+	private Double point;
+	
+	private Double pound;
+	
+	private Long expiry;
+
+	private String description;
 
 	public Long getId() {
 		return id;
@@ -97,12 +103,36 @@ public class MerchantRule extends ModificationAudit implements IEntity{
 		this.min = min;
 	}
 
-	public Long getPoint() {
+	public Double getPoint() {
 		return point;
 	}
 
-	public void setPoint(Long point) {
+	public void setPoint(Double point) {
 		this.point = point;
+	}
+
+	public Double getPound() {
+		return pound;
+	}
+
+	public void setPound(Double pound) {
+		this.pound = pound;
+	}
+
+	public Long getExpiry() {
+		return expiry;
+	}
+
+	public void setExpiry(Long expiry) {
+		this.expiry = expiry;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

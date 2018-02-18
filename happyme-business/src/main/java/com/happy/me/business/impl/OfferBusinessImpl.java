@@ -161,4 +161,43 @@ public class OfferBusinessImpl implements OfferBusiness {
 		
 	}
 
+	@Override
+	public OfferDto getOffer(Long offerId) throws BusinessException {
+		try {
+			Offer offer = offerRepository.findOne(offerId);
+
+			return mapper.map(offer, OfferDto.class);
+		} catch (Exception e) {
+			throw new BusinessException("Exception while creating offer", e);
+		}
+	}
+
+	@Override
+	public List<OfferDto> getMerchantActiveOffer(Long merchantId) throws BusinessException {
+		try {
+			Calendar calendar = Calendar.getInstance();
+			Merchant merchant = new Merchant(merchantId);
+			List<Offer> offers = offerRepository.getMerchantActiveOffer(merchant, calendar.getTime());
+			
+			List<OfferDto> offerDtos = new ArrayList<>();
+			for (Offer offer : offers) {
+				OfferDto dto = mapper.map(offer, OfferDto.class);
+				List<OfferImagesDto> dtos = DozerHelper.map(mapper, offer.getImages(), OfferImagesDto.class);
+				dto.setImages(dtos);
+				MerchantDto merchantDto = mapper.map(offer.getMerchant(), MerchantDto.class);
+				if (offer.getMerchant().getAddresses() != null) {
+					List<AddressDto> addressDtos = DozerHelper.map(mapper, offer.getMerchant().getAddresses(), AddressDto.class);
+					merchantDto.setAddressDtos(addressDtos);		
+				}
+				dto.setMerchantDto(merchantDto);
+				offerDtos.add(dto);
+			}
+			
+			return offerDtos;
+			
+		} catch (Exception e) {
+			throw new BusinessException("Exception while creating offer", e);
+		}
+	}
+
 }

@@ -23,5 +23,10 @@ public interface OfferBusiness {
 
 	public void deleteOfferImage(Long imageId) throws BusinessException;
 
+	public OfferDto getOffer(Long offerId) throws BusinessException;
+
+	public List<OfferDto> getMerchantActiveOffer(Long merchantId) throws BusinessException;
+
+
 	
 }

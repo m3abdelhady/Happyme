@@ -9,7 +9,10 @@
 	<configs>
 	</configs>
 	<autoconfigs>
+		<config>java:com.happy.me.controller.OfferController</config>
+		<config>java:com.happy.me.controller.CardsController</config>
 		<config>java:com.happy.me.controller.MerchantController</config>
+		<config>java:com.happy.me.controller.CouponsController</config>
 		<config>java:com.happy.me.controller.UserController</config>
 	</autoconfigs>
 	<configSets>

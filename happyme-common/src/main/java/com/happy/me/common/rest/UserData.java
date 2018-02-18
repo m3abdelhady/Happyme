@@ -37,6 +37,7 @@ public class UserData implements BaseDto {
 	
 	private Long creator;
 	
+	private Long merchantId;
 
 	public String getFirstName() {
 		return firstName;
@@ -132,6 +133,14 @@ public class UserData implements BaseDto {
 
 	public void setNationality(String nationality) {
 		this.nationality = nationality;
+	}
+
+	public Long getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
     
     

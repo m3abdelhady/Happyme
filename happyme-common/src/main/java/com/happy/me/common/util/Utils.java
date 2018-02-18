@@ -35,4 +35,10 @@ public class Utils {
 		return hash.toString();
 	}
 	
+	public static String getUniqueNumber() {
+		UUID uuid = UUID.randomUUID();
+		String id = uuid.toString().substring(0, 8);
+		return id;
+	}
+	
 }

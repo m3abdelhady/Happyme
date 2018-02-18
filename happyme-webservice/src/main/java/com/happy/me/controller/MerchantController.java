@@ -1,9 +1,7 @@
 package com.happy.me.controller;
 
-import java.io.InputStream;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -27,10 +25,14 @@ import com.happy.me.common.enums.DozerMapping;
 import com.happy.me.common.rest.AddressData;
 import com.happy.me.common.rest.FeedbackRest;
 import com.happy.me.common.rest.MerchantData;
+import com.happy.me.common.rest.MerchantPaymentInfoData;
 import com.happy.me.common.rest.MerchantRuleData;
 import com.happy.me.common.rest.MerchantsData;
+import com.happy.me.common.rest.Response;
 import com.happy.me.common.util.DozerHelper;
 import com.happy.me.service.MerchantService;
+import com.happy.me.service.exception.NotAuthorizedException;
+import com.happy.me.service.exception.UserNotFoundException;
 import com.happy.me.utils.WebUtils;
 
 @RestController
@@ -123,14 +125,7 @@ public class MerchantController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<?> getMerchant() {
 		try {
-//			InputStream inputStream = this.getClass().getClassLoader()  
-//	                .getResourceAsStream("image/pepsi.png"); 
-//			byte[] bytes = IOUtils.toByteArray(inputStream);
 			List<MerchantDto> merchantDtos = merchantService.getActiveMerchant();
-//			merchantDtos.forEach(x ->{
-//				x.setLogo(bytes);
-//				x.setBackgroundColor("#4295f4");
-//			});
 			return ResponseEntity.ok(new MerchantsData(merchantDtos));
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
@@ -140,11 +135,7 @@ public class MerchantController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getMerchant(@PathVariable("id") Long id) {
 		try {
-//			InputStream inputStream = this.getClass().getClassLoader()  
-//	                .getResourceAsStream("image/pepsi.png"); 
-//			byte[] bytes = IOUtils.toByteArray(inputStream);
 			MerchantDto merchantDto = merchantService.getMerchant(id);
-			
 			return ResponseEntity.ok(merchantDto);
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
@@ -154,21 +145,12 @@ public class MerchantController {
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<?> getAllMerchant() {
 		try {
-			InputStream inputStream = this.getClass().getClassLoader()  
-	                .getResourceAsStream("image/pepsi.png"); 
-			byte[] bytes = IOUtils.toByteArray(inputStream);
 			List<MerchantDto> merchantDtos = merchantService.getAllMerchant();
-			merchantDtos.forEach(x ->{
-				x.setLogo(bytes);
-				x.setBackgroundColor("#4295f4");
-			});
 			return ResponseEntity.ok(new MerchantsData(merchantDtos));
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
 		}
     }
-	
-	
 	
 	
 	@RequestMapping(value = "/logo/{id}", method = RequestMethod.POST)
@@ -184,8 +166,8 @@ public class MerchantController {
 	@RequestMapping(value = "/background/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> uploadBackground(@RequestParam("background") MultipartFile background, @PathVariable("id") Long id) {
 		try {
-			byte[] logos = merchantService.updateMerchantBackground(background.getBytes(), id); 
-			return ResponseEntity.ok(logos);
+			merchantService.updateMerchantBackground(background.getBytes(), id); 
+			return ResponseEntity.ok().build();
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
 		}
@@ -207,6 +189,70 @@ public class MerchantController {
 			List<FeedbackDto> feedbackDtos = merchantService.getFeedbacks(merchantId, userId);
 			
 			return ResponseEntity.ok(new FeedbackRest(feedbackDtos));
+		}catch (NotAuthorizedException e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.NON_AUTHORITATIVE_INFORMATION);
+		}catch (Exception e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
+		}		
+    }
+	
+	@RequestMapping(value = "/{merchant}/status/{user}", method = RequestMethod.POST, produces = { "application/json" })
+    public ResponseEntity<?> activeMerchant(@PathVariable("user") Long userId , @PathVariable("merchant") Long merchantId ) {
+		try {
+			merchantService.changeMerchantFlag(userId, merchantId);
+			return ResponseEntity.ok().build();
+		}catch (NotAuthorizedException e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.NON_AUTHORITATIVE_INFORMATION);
+		}catch (UserNotFoundException e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.INVALID_USER);
+		}catch (Exception e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
+		}		
+    }
+	
+	@RequestMapping(value = "/pending", method = RequestMethod.GET)
+    public ResponseEntity<?> getPendingMerchant() {
+		try {
+			List<UserDto> dtos = merchantService.getPendingMerchant();
+			return ResponseEntity.ok(new Response(dtos));
+		}catch (Exception e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
+		}
+    }
+	
+	@RequestMapping(value = "/by/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getMerchantCreatedByUser(@PathVariable("userId") Long userId) {
+		try {
+			List<MerchantDto> dtos = merchantService.getMerchantCreatedByUser(userId);
+			return ResponseEntity.ok(new Response(dtos));
+		}catch (Exception e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
+		}
+    }
+	
+	@RequestMapping(value = "/{userId}/agent/{agentId}", method = RequestMethod.DELETE, produces = { "application/json" })
+    public ResponseEntity<?> deleteAgent(@PathVariable("userId") Long userId , @PathVariable("agentId") Long agentId ) {
+		try {
+			merchantService.deleteAgent(userId, agentId);
+			return ResponseEntity.ok().build();
+		}catch (NotAuthorizedException e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.NON_AUTHORITATIVE_INFORMATION);
+		}catch (UserNotFoundException e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.INVALID_USER);
+		}catch (Exception e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
+		}		
+    }
+	
+	@RequestMapping(value = "/{merchant}/payment/{user}", method = RequestMethod.PUT, produces = { "application/json" })
+    public ResponseEntity<?> addMerchantPaymetInfo(@RequestBody MerchantPaymentInfoData paymentInfoData,@PathVariable("user") Long userId , @PathVariable("merchant") Long merchantId ) {
+		try {
+			merchantService.addMerchantPaymetInfo(userId, merchantId, paymentInfoData);
+			return ResponseEntity.ok().build();
+		}catch (NotAuthorizedException e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.NON_AUTHORITATIVE_INFORMATION);
+		}catch (UserNotFoundException e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.INVALID_USER);
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
 		}		

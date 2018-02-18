@@ -16,6 +16,7 @@
 		<maven.compiler.version>3.2</maven.compiler.version>
 		<spring.version>4.3.3.RELEASE</spring.version>
 		<springframework.boot>1.4.1.RELEASE</springframework.boot>
+		<quartz.verion>2.2.1</quartz.verion>
 	</properties>
 
 	<modules>
@@ -24,6 +25,7 @@
 		<module>../happyme-business</module>
 		<module>../happyme-services</module>
 		<module>../happyme-webservice</module>
+		<!-- <module>../happyme-jobs</module> -->
 	</modules>
 
 	<repositories>

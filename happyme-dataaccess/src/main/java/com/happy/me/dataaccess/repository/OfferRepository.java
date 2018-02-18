@@ -19,6 +19,9 @@ public interface OfferRepository extends CrudRepository<Offer, Long> {
     
     @Query("select o from Offer o where o.merchant = :merchant")
 	List<Offer> getMerchantOffer(@Param("merchant") Merchant merchant);
+   
+    @Query("select o from Offer o where o.merchant = :merchant and o.start <= :date and o.end >= :date")
+	List<Offer> getMerchantActiveOffer(@Param("merchant") Merchant merchant, @Param("date") Date date);
 	
 }
 

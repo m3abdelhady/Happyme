@@ -2,6 +2,7 @@ package com.happy.me.common.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.happy.me.common.enums.RoleKey;
@@ -34,10 +35,13 @@ public class UserDto implements BaseDto {
     private String cpr;
 	
 	private String nationality;
-
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
     private Date dateOfBirth;
 	
 	private UserDto createdBy;
+	
+	private MerchantDto merchantDto;
 	
 	
 	public UserDto() {
@@ -164,6 +168,14 @@ public class UserDto implements BaseDto {
 
 	public void setNationality(String nationality) {
 		this.nationality = nationality;
+	}
+
+	public MerchantDto getMerchantDto() {
+		return merchantDto;
+	}
+
+	public void setMerchantDto(MerchantDto merchantDto) {
+		this.merchantDto = merchantDto;
 	}
 	
 

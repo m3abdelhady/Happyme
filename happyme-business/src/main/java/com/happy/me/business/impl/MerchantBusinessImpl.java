@@ -15,6 +15,7 @@ import com.happy.me.common.dto.FeedbackDto;
 import com.happy.me.common.dto.MerchantDto;
 import com.happy.me.common.dto.MerchantRuleDto;
 import com.happy.me.common.enums.DozerMapping;
+import com.happy.me.common.rest.MerchantPaymentInfoData;
 import com.happy.me.common.util.DozerHelper;
 import com.happy.me.dataaccess.model.Address;
 import com.happy.me.dataaccess.model.Feedback;
@@ -25,6 +26,7 @@ import com.happy.me.dataaccess.repository.AddressRepository;
 import com.happy.me.dataaccess.repository.FeedbackRepository;
 import com.happy.me.dataaccess.repository.MerchantRepository;
 import com.happy.me.dataaccess.repository.MerchantRuleRepository;
+import com.happy.me.dataaccess.repository.UserRepository;
 
 @Service("merchantBusiness")
 public class MerchantBusinessImpl implements MerchantBusiness {
@@ -40,6 +42,9 @@ public class MerchantBusinessImpl implements MerchantBusiness {
 
 	@Autowired
 	private FeedbackRepository feedbackRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private Mapper mapper;
@@ -63,6 +68,9 @@ public class MerchantBusinessImpl implements MerchantBusiness {
 				List<AddressDto> addressDtos = DozerHelper.map(mapper, merchant.getAddresses(), AddressDto.class);
 				dto.setAddressDtos(addressDtos);		
 			}
+			User user = userRepository.findOne(merchant.getUser().getId());
+			user.setMerchant(merchant);
+			userRepository.save(user);
 			return dto;
 		} catch (Exception e) {
 			throw new BusinessException("Exception while creating merchant", e);
@@ -195,7 +203,7 @@ public class MerchantBusinessImpl implements MerchantBusiness {
 	}
 
 	@Override
-	public MerchantDto getMerchant(Long id) throws BusinessException {
+	public MerchantDto getMerchantByAdminId(Long id) throws BusinessException {
 		try {
 			User user = new User();
 			user.setId(id);
@@ -276,6 +284,127 @@ public class MerchantBusinessImpl implements MerchantBusiness {
 		} catch (Exception e) {
 			throw new BusinessException("Exception while update background", e);
 		}
+	}
+
+	@Override
+	public boolean isPresent(Long id) throws BusinessException {
+		try {
+			return merchantRepository.existsById(id);
+		} catch (Exception e) {
+			throw new BusinessException("Exception while update background", e);
+		}
+	}
+
+	@Override
+	public MerchantRuleDto getMerchantRule(Long merchantId) throws BusinessException {
+		try {
+			Optional<MerchantRule> merchantRule  = merchantRuleRepository.getRuleByMerchant(merchantId);
+			MerchantRuleDto merchantRuleDto = null ;
+			if (merchantRule.isPresent()) 
+				merchantRuleDto = mapper.map(merchantRule.get(), MerchantRuleDto.class);
+			return merchantRuleDto;
+		} catch (Exception e) {
+			throw new BusinessException("Exception while update merchant rule", e);
+		}
+	}
+
+	@Override
+	public void changeMerchantFlag(Long merchantId) throws BusinessException {
+		try {
+			Merchant merchant = merchantRepository.findOne(merchantId);
+			merchant.setActive(!merchant.isActive());
+			merchant = merchantRepository.save(merchant);
+		} catch (Exception e) {
+			throw new BusinessException("Exception while update merchant rule", e);
+		}
+		
+	}
+
+	@Override
+	public void deleteAgent(Long agentId) throws BusinessException {
+		try {
+			userRepository.delete(agentId);
+		} catch (Exception e) {
+			throw new BusinessException("Exception while update merchant rule", e);
+		}
+		
+	}
+
+	@Override
+	public List<MerchantDto> getMerchantCreatedByUser(Long userId) throws BusinessException {
+		try {
+			List <Merchant> merchants = merchantRepository.getMerchantCreatedByUser(new User(userId));
+			List <MerchantDto> merchantDtos = new ArrayList<>();
+			for (Merchant merchant : merchants) {
+				MerchantDto dto = mapper.map(merchant ,MerchantDto.class, DozerMapping.MERCHANT_VS_MERCHANTDTO.getKey());
+				List<AddressDto> addressDtos = null;
+				if (merchant.getAddresses() != null) {
+					addressDtos = new ArrayList<>();
+					for (Address address : merchant.getAddresses()) {
+						AddressDto addressDto =  mapper.map(address ,AddressDto.class);
+						addressDtos.add(addressDto);
+					}
+					dto.setAddressDtos(addressDtos);
+				}
+				merchantDtos.add(dto);
+			}
+			return merchantDtos;
+		} catch (Exception e) {
+			throw new BusinessException("Exception while get all merchant", e);
+		}
+	}
+
+	@Override
+	public Optional<MerchantDto> getMerchantById(Long merchantId) throws BusinessException {
+		try {
+			Optional<Merchant> merchant = merchantRepository.findById(merchantId);
+			MerchantDto dto = null;
+			if (merchant.isPresent()) {
+				dto = mapper.map(merchant.get() ,MerchantDto.class, DozerMapping.MERCHANT_VS_MERCHANTDTO.getKey());
+			}
+			return Optional.ofNullable(dto);
+		} catch (Exception e) {
+			throw new BusinessException("Exception while get all merchant", e);
+		}
+	}
+
+	@Override
+	public List<MerchantDto> getAllMerchantWithRule() throws BusinessException {
+		try {
+			List <Merchant> merchants = (List<Merchant>) merchantRepository.findAll();
+			List <MerchantDto> merchantDtos = new ArrayList<>();
+			for (Merchant merchant : merchants) {
+				MerchantDto dto = mapper.map(merchant ,MerchantDto.class, DozerMapping.LIGHT_MERCHANT_VS_MERCHANTDTO.getKey());
+				List<AddressDto> addressDtos = null;
+				if (merchant.getAddresses() != null) {
+					addressDtos = new ArrayList<>();
+					for (Address address : merchant.getAddresses()) {
+						AddressDto addressDto =  mapper.map(address ,AddressDto.class);
+						addressDtos.add(addressDto);
+					}
+					dto.setAddressDtos(addressDtos);
+				}
+				merchantDtos.add(dto);
+			}
+			return merchantDtos;
+		} catch (Exception e) {
+			throw new BusinessException("Exception while get all merchant", e);
+		}
+	}
+
+	@Override
+	public void addMerchantPaymetInfo(Long merchantId, MerchantPaymentInfoData paymentInfoData)
+			throws BusinessException {
+		try {
+			Merchant merchant = merchantRepository.findOne(merchantId);
+			merchant.setOutStanding(paymentInfoData.getOutStanding());
+			merchant.setCreditLimit(paymentInfoData.getCreditLimit());
+			merchant.setMrc(paymentInfoData.getMrc());
+			merchant = merchantRepository.save(merchant);
+		} catch (Exception e) {
+			throw new BusinessException("Exception while update merchant rule", e);
+		}
+		
 	}
 
 }

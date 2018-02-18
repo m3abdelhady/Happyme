@@ -20,5 +20,13 @@ public interface MerchantRepository extends CrudRepository<Merchant, Long> {
 	
     @Query("SELECT m FROM Merchant m where m.user = :id")
 	public Optional<Merchant> getMerchantByUser(@Param("id") User user);
+    
+    @Query("select count(e)>0 from Merchant e where e.id = :id")
+    boolean existsById(@Param("id") Long id);
+
+	@Query("SELECT m FROM Merchant m where m.user.createdBy = :user")
+	public List<Merchant> getMerchantCreatedByUser(@Param("user") User user);
+
+	public Optional<Merchant> findById(Long merchantId);
 }
 

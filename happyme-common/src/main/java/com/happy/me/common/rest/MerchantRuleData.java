@@ -2,24 +2,45 @@ package com.happy.me.common.rest;
 
 public class MerchantRuleData {
 
-
 	private Long id;
 
 	private Long star5;
-	
+
 	private Long star4;
-	
+
 	private Long star3;
-	
+
 	private Long star2;
-	
+
 	private Long star1;
 
 	private Long max;
-	
+
 	private Long min;
-	
-	private Long point;
+
+	private Double point;
+
+	private Long pound;
+
+	private Long expiry;
+
+	private String description;
+
+	public Long getPound() {
+		return pound;
+	}
+
+	public void setPound(Long pound) {
+		this.pound = pound;
+	}
+
+	public Long getExpiry() {
+		return expiry;
+	}
+
+	public void setExpiry(Long expiry) {
+		this.expiry = expiry;
+	}
 
 	public Long getId() {
 		return id;
@@ -85,15 +106,20 @@ public class MerchantRuleData {
 		this.min = min;
 	}
 
-	public Long getPoint() {
+	public Double getPoint() {
 		return point;
 	}
 
-	public void setPoint(Long point) {
+	public void setPoint(Double point) {
 		this.point = point;
 	}
-	
-	
-	
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 }

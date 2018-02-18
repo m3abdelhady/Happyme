@@ -3,7 +3,6 @@ package com.happy.me.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +45,7 @@ public class OfferServiceImpl implements OfferService {
 		}
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<OfferDto> getActiveOffer() throws ServiceException {
 		try {
@@ -55,6 +55,7 @@ public class OfferServiceImpl implements OfferService {
 		}
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<OfferDto> getOffers(Long merchantId) throws ServiceException {
 		try {
@@ -93,6 +94,25 @@ public class OfferServiceImpl implements OfferService {
 			throw new ServiceException("Exception while creating offer", e);
 		}
 
+	}
+
+	@Override
+	public OfferDto getOffer(Long offerId) throws ServiceException {
+		try {
+			return offerBusiness.getOffer(offerId);
+		} catch (BusinessException e) {
+			throw new ServiceException("Exception while creating offer", e);
+		}
+	}
+
+	@Transactional(readOnly = false)
+	@Override
+	public List<OfferDto> getMerchantActiveOffer(Long merchantId) throws ServiceException {
+		try {
+			return offerBusiness.getMerchantActiveOffer(merchantId);
+		} catch (BusinessException e) {
+			throw new ServiceException("Exception while creating offer", e);
+		}
 	}
 
 }

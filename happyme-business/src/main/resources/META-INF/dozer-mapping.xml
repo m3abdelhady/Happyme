@@ -30,6 +30,11 @@
             <a>createdBy</a>
             <b>createdBy</b>
         </field>
+        
+        <field map-id="MerchantVsMerchantDto_ID">
+            <a>merchantDto</a>
+            <b>merchant</b>
+        </field>
     </mapping>
     
    <mapping map-id="Creator_UserVsUserDto" wildcard="false">
@@ -39,6 +44,37 @@
             <a>id</a>
             <b>id</b>
         </field>
+    </mapping>
+    
+    <mapping map-id="Creator_Detail_UserVsUserDto" wildcard="false">
+        <class-a>com.happy.me.common.dto.UserDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.User</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>firstName</a>
+            <b>firstName</b>
+        </field>
+        <field>
+            <a>lastName</a>
+            <b>lastName</b>
+        </field>
+         <field>
+            <a>phone</a>
+            <b>phone</b>
+        </field>
+         <field>
+            <a>email</a>
+            <b>email</b>
+        </field>
+        
+        <field>
+            <a>createdBy</a>
+            <b>createdBy</b>
+        </field>
+        
     </mapping>
     
     <mapping map-id="MerchantDataVsMerchantDto" wildcard="true">
@@ -58,7 +94,7 @@
             <a>merchantRuleDto</a>
             <b>merchantRule</b>
         </field>
-        <field map-id="Creator_UserVsUserDto">
+        <field map-id="Creator_Detail_UserVsUserDto">
             <a>userDto</a>
             <b>user</b>
         </field>
@@ -142,7 +178,114 @@
             <b>user</b>
         </field>
       </mapping>
+      
+      <mapping map-id="CouponsVsCouponsdto" wildcard="true">
+        <class-a>com.happy.me.common.dto.CouponsDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.Coupons</class-b>
+         <field map-id="MerchantVsMerchantDto_ID">
+            <a>merchantDto</a>
+            <b>merchant</b>
+        </field>
+      </mapping>
+      
+      <mapping map-id="MerchantVsMerchantDto_ID" wildcard="false">
+        <class-a>com.happy.me.common.dto.MerchantDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.Merchant</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        </mapping>
+        
+        <mapping map-id="UserCardVsUserCardDto" wildcard="false">
+        <class-a>com.happy.me.common.dto.UserCardDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.UserCard</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>cardNumber</a>
+            <b>cardNumber</b>
+        </field>
+        <field map-id="Creator_UserVsUserDto">
+            <a>userDto</a>
+            <b>user</b>
+        </field>
+        
+        <field map-id="MerchantVsMerchantDto_ID">
+            <a>merchantDto</a>
+            <b>merchant</b>
+        </field>
+    </mapping>
     
+    
+    <mapping map-id="CardSummaryVSCardSummaryDto" wildcard="true">
+        <class-a>com.happy.me.common.dto.CardSummaryDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.CardSummary</class-b>
+        <field map-id="UserCardVsUserCardDto_min">
+            <a>userCardDto</a>
+            <b>userCard</b>
+        </field>
+        
+    </mapping>
+    
+    <mapping map-id="UserCardVsUserCardDto_min" wildcard="false">
+        <class-a>com.happy.me.common.dto.UserCardDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.UserCard</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>cardNumber</a>
+            <b>cardNumber</b>
+        </field>
+        
+         <field map-id="MerchantVsMerchantDto_ID">
+            <a>merchantDto</a>
+            <b>merchant</b>
+        </field>
+    </mapping>
+    
+    <mapping map-id="Light_MerchantVsMerchantDto" wildcard="false">
+        <class-a>com.happy.me.common.dto.MerchantDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.Merchant</class-b>
+        <field>
+            <a>merchantRuleDto</a>
+            <b>merchantRule</b>
+        </field>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+    </mapping>
+    
+    <mapping map-id="BillHeaderVsBillHeaderDto" >
+        <class-a>com.happy.me.common.dto.BillHeaderDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.BillHeader</class-b>
+        
+         <field map-id="MerchantVsMerchantDto_Simple">
+            <a>merchantDto</a>
+            <b>merchant</b>
+        </field>
+    </mapping>
+    
+    <mapping map-id="MerchantVsMerchantDto_Simple" >
+        <class-a>com.happy.me.common.dto.MerchantDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.Merchant</class-b>
+
+    </mapping>
+    
+    <mapping map-id="CreditDebitVsCreditDebitDto" >
+        <class-a>com.happy.me.common.dto.CreditDebitDto</class-a>
+        <class-b>com.happy.me.dataaccess.model.CreditDebit</class-b>
+
+ 		<field map-id="BillHeaderVsBillHeaderDto">
+            <a>billHeaderDto</a>
+            <b>billHeader</b>
+        </field>
+    </mapping>
     
     <!-- <mapping map-id="MoxtraMeetVsMeet" wildcard="false">
         <class-a>com.sblox.common.model.moxtra.MoxtraMeet</class-a>

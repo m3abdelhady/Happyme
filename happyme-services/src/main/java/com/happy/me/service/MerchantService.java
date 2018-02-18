@@ -6,6 +6,8 @@ import com.happy.me.common.dto.AddressDto;
 import com.happy.me.common.dto.FeedbackDto;
 import com.happy.me.common.dto.MerchantDto;
 import com.happy.me.common.dto.MerchantRuleDto;
+import com.happy.me.common.dto.UserDto;
+import com.happy.me.common.rest.MerchantPaymentInfoData;
 import com.happy.me.service.exception.ServiceException;
 
 public interface MerchantService {
@@ -35,5 +37,17 @@ public interface MerchantService {
 	public void addFeedback(FeedbackDto feedbackDto, Long merchantId, Long userId) throws ServiceException;
 
 	public List<FeedbackDto> getFeedbacks(Long merchantId, Long userId) throws ServiceException;
+
+	public void changeMerchantFlag(Long userId, Long merchantId) throws ServiceException;
+
+	public List<UserDto> getPendingMerchant() throws ServiceException;
+
+	public void deleteAgent(Long userId, Long agentId) throws ServiceException;
+
+	public List<MerchantDto> getMerchantCreatedByUser(Long userId) throws ServiceException;
+
+	public void addMerchantPaymetInfo(Long userId, Long merchantId, MerchantPaymentInfoData paymentInfoData) throws ServiceException;
+
+
 
 }

@@ -21,6 +21,7 @@ import com.happy.me.common.dto.OfferDto;
 import com.happy.me.common.enums.AppErrorCode;
 import com.happy.me.common.rest.OfferData;
 import com.happy.me.common.rest.OfferResponse;
+import com.happy.me.common.rest.OffersResponse;
 import com.happy.me.service.OfferService;
 import com.happy.me.utils.WebUtils;
 
@@ -39,7 +40,7 @@ public class OfferController {
     public ResponseEntity<?> getActiveOffer() {
 		try {
 			List<OfferDto> list = offerService.getActiveOffer();
-			OfferResponse offerResponse = new OfferResponse(list);
+			OffersResponse offerResponse = new OffersResponse(list);
 			return ResponseEntity.ok(offerResponse);
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
@@ -50,7 +51,7 @@ public class OfferController {
     public ResponseEntity<?> getMerchantOffer( @PathVariable("merchantId") Long merchantId) {
 		try {
 			List<OfferDto> list = offerService.getOffers(merchantId);
-			OfferResponse offerResponse = new OfferResponse(list);
+			OffersResponse offerResponse = new OffersResponse(list);
 			return ResponseEntity.ok(offerResponse);
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
@@ -98,8 +99,8 @@ public class OfferController {
 	@RequestMapping(value = "/image/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile image, @PathVariable("id") Long offerid) {
 		try {
-			byte[] logos = offerService.updateOfferImage(image.getBytes(), offerid); 
-			return ResponseEntity.ok(logos);
+			offerService.updateOfferImage(image.getBytes(), offerid); 
+			return ResponseEntity.ok().build();
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
 		}
@@ -115,7 +116,7 @@ public class OfferController {
 				list.add(f.getBytes());
 			}
 			offerService.updateOfferImage(list, offerid); 
-			return ResponseEntity.ok(list);
+			return ResponseEntity.ok().build();
 		}catch (Exception e) {
 			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
 		}
@@ -131,6 +132,27 @@ public class OfferController {
 		}
     }
 	
+	@RequestMapping(value = "/{offerId}/data", method = RequestMethod.GET, produces = { "application/json" })
+    public ResponseEntity<?> getOffer(@PathVariable("offerId") Long offerId) {
+		try {
+			OfferDto dto = offerService.getOffer(offerId);
+			OfferResponse offerResponse = new OfferResponse(dto);
+			return ResponseEntity.ok(offerResponse);
+		}catch (Exception e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
+		}
+    }
+	
+	@RequestMapping(value = "/{merchantId}/active", method = RequestMethod.GET, produces = { "application/json" })
+    public ResponseEntity<?> getMerchantActiveOffer( @PathVariable("merchantId") Long merchantId) {
+		try {
+			List<OfferDto> list = offerService.getMerchantActiveOffer(merchantId);
+			OffersResponse offerResponse = new OffersResponse(list);
+			return ResponseEntity.ok(offerResponse);
+		}catch (Exception e) {
+			return WebUtils.prepareErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, AppErrorCode.FAILURE);
+		}
+    }
 	
 	
 	

@@ -25,6 +25,8 @@ public class Merchant extends ModificationAudit implements IEntity {
 
 	private static final long serialVersionUID = 1L;
 
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -60,6 +62,24 @@ public class Merchant extends ModificationAudit implements IEntity {
     @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER, orphanRemoval=true, mappedBy="merchant")
     @OnDelete(action = OnDeleteAction.CASCADE)
 	List<Address> addresses;
+    
+    private double mrc;
+
+    private double outStanding;
+    
+    private double creditLimit;
+    
+    
+    public Merchant() {
+		super();
+	}
+    
+	public Merchant(Long id) {
+		super();
+		this.id = id;
+	}
+
+
 
 	public List<Address> getAddresses() {
 		return addresses;
@@ -147,6 +167,30 @@ public class Merchant extends ModificationAudit implements IEntity {
 
 	public void setBackgroundColor(String backgroundColor) {
 		this.backgroundColor = backgroundColor;
+	}
+
+	public double getMrc() {
+		return mrc;
+	}
+
+	public void setMrc(double mrc) {
+		this.mrc = mrc;
+	}
+
+	public double getOutStanding() {
+		return outStanding;
+	}
+
+	public void setOutStanding(double outStanding) {
+		this.outStanding = outStanding;
+	}
+
+	public double getCreditLimit() {
+		return creditLimit;
+	}
+
+	public void setCreditLimit(double creditLimit) {
+		this.creditLimit = creditLimit;
 	}
 	
 	

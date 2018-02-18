@@ -24,9 +24,16 @@ public class MerchantRuleDto implements BaseDto{
 	
 	private Long min;
 	
-	private Long point;
+	private Double point;
+	
+	private Double pound;
+	
+	private Long expiry;
 	
 	private Date created;
+	
+	private String description;
+
 
 	public Long getId() {
 		return id;
@@ -92,11 +99,11 @@ public class MerchantRuleDto implements BaseDto{
 		this.min = min;
 	}
 
-	public Long getPoint() {
+	public Double getPoint() {
 		return point;
 	}
 
-	public void setPoint(Long point) {
+	public void setPoint(Double point) {
 		this.point = point;
 	}
 
@@ -106,6 +113,30 @@ public class MerchantRuleDto implements BaseDto{
 
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	public Double getPound() {
+		return pound;
+	}
+
+	public void setPound(Double pound) {
+		this.pound = pound;
+	}
+
+	public Long getExpiry() {
+		return expiry;
+	}
+
+	public void setExpiry(Long expiry) {
+		this.expiry = expiry;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	
