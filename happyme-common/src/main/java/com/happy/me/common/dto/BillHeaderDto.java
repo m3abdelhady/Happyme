@@ -3,9 +3,7 @@ package com.happy.me.common.dto;
 import java.util.Date;
 import java.util.List;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import com.happy.me.common.rest.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class BillHeaderDto implements BaseDto {
 
@@ -14,15 +12,15 @@ public class BillHeaderDto implements BaseDto {
 	private Long id;
 
 	private MerchantDto merchantDto;
-	@JsonSerialize(using=JsonDateSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
 	private Date billDate;
 	private double billAmount;
 	private double balanceBroughtForward;
 	private double totalAmountDue;
 	private String invoiceNumber;
-	@JsonSerialize(using=JsonDateSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
 	private Date fromDate;
-	@JsonSerialize(using=JsonDateSerializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
 	private Date toDate;
 	
 	List<BillLinesDto> billLinesDtos;

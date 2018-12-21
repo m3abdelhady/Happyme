@@ -73,6 +73,10 @@ public class MerchantController {
 		try {
 			MerchantDto dto = mapper.map(data, MerchantDto.class, DozerMapping.MERCHANTDATA_VS_MERCHANTDTO.getKey());
 			dto.setId(merchantId);
+			if (data.getAddressDatas() != null) {
+				List<AddressDto> address = DozerHelper.map(mapper, data.getAddressDatas(), AddressDto.class);
+				dto.setAddressDtos(address);			
+			}
 			dto = merchantService.updateMerchant(dto);
 			return ResponseEntity.ok(dto);
 		}catch (Exception e) {

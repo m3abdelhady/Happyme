@@ -14,6 +14,8 @@ public enum DozerMapping {
     LIGHT_MERCHANT_VS_MERCHANTDTO("Light_MerchantVsMerchantDto"),
     BILLHEADER_VS_BILLHEADERDTO("BillHeaderVsBillHeaderDto"), 
     CREDITDEBIT_VS_CREDITDEBITDTO("CreditDebitVsCreditDebitDto"), 
+    CARDTRANSACTION_VS_CARDTRANSACTIONDTO("CardTransactionVsCardTransactionDto"),
+    MERCHANT_VS_MERCHANTDTO_LOGO("MerchantVsMerchantDto_Logo"),
 
     
 

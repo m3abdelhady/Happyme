@@ -25,6 +25,8 @@ public enum AppErrorCode {
     MIN_POINT_REDEEM(18, "min.point.redeem"),
     USER_MAX_POINT_EXCEED(19, "user.max.point.exceed"),
     INVALID_MERCHANT_ASSIGN(20, "invalid.merchant.assign"),
+    MERCHANT_DISABLE(21, "merchant.disable"),
+    
     
     ;
 

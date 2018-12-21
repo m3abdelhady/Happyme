@@ -132,7 +132,7 @@ public class MerchantBusinessImpl implements MerchantBusiness {
 	public MerchantRuleDto updateMerchantRule(MerchantRuleDto dto) throws BusinessException {
 		try {
 			MerchantRule merchantRule  = merchantRuleRepository.findOne(dto.getId());
-			dto.setCreated(merchantRule.getCreated());
+			//dto.setCreated(merchantRule.getCreated());
 			merchantRule = mapper.map(dto, MerchantRule.class);
 			merchantRule = merchantRuleRepository.save(merchantRule);
 			MerchantRuleDto merchantRuleDto = mapper.map(merchantRule, MerchantRuleDto.class);
@@ -164,6 +164,17 @@ public class MerchantBusinessImpl implements MerchantBusiness {
 			merchant.setBackgroundColor(dto.getBackgroundColor());
 			merchant.setDescription(dto.getDescription());
 			merchant.setPhone(dto.getPhone());
+			merchant.setMerchantRule(mapper.map(dto.getMerchantRuleDto(), MerchantRule.class));
+			
+			if (dto.getAddressDtos() != null) {
+				List<Address> address = DozerHelper.map(mapper, dto.getAddressDtos(), Address.class);
+//				address.forEach( s -> s.setMerchant(merchant));
+				for (Address address2 : address) {
+					address2.setMerchant(merchant);
+				}
+				merchant.setAddresses(address);		
+			}
+			
 			
 			merchant = merchantRepository.save(merchant);
 			MerchantDto merchantDto = null;

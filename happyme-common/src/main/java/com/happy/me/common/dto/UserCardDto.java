@@ -1,20 +1,44 @@
 package com.happy.me.common.dto;
 
-public class UserCardDto implements BaseDto{
+import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class UserCardDto implements BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	private String cardNumber;
-	
+
 	private Long point;
-	
+
 	private UserDto userDto;
-	
+
 	private MerchantDto merchantDto;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
+	private Date modified;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
+	private Date created;
+
+	public Date getModified() {
+		return modified;
+	}
+	
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+	
+	public Date getCreated() {
+		return created;
+	}
+	
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -52,8 +76,7 @@ public class UserCardDto implements BaseDto{
 	}
 
 	public void setPoint(Long point) {
-		this.point = point; 
+		this.point = point;
 	}
 
-	
 }

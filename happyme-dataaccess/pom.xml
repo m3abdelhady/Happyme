@@ -22,12 +22,16 @@
 		<spring.data.version>1.10.4.RELEASE</spring.data.version>
 
 		<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-<!-- 		<jdbc.url>jdbc:mysql://95.177.208.232:3306/happyme</jdbc.url>-->		
-		<jdbc.url>jdbc:mysql://localhost:3306/happyme</jdbc.url>
+		<!-- <jdbc.url>jdbc:mysql://95.177.208.232:3306/happyme</jdbc.url>-->		
+		<jdbc.url>jdbc:mysql://localhost:3306/happyme</jdbc.url> 
 		<!-- <jdbc.username>happyme</jdbc.username>
 		<jdbc.password>happyme</jdbc.password> -->
 		<jdbc.username>root</jdbc.username>
 		<jdbc.password>123456</jdbc.password>
+		<!-- <jdbc.url>jdbc:mysql://localhost:3306/pointechs</jdbc.url>
+		<jdbc.username>pointechs</jdbc.username>
+		<jdbc.password>4KAph}d!xz6D7Ar</jdbc.password> -->
+		
 	</properties>
 	
 	

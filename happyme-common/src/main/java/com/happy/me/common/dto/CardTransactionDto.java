@@ -24,6 +24,16 @@ public class CardTransactionDto implements BaseDto{
 	private UserCardDto userCardDto;
 	
     private TransactionType transactionType;
+    
+    private UserDto agentDto;
+
+	public UserDto getAgentDto() {
+		return agentDto;
+	}
+
+	public void setAgentDto(UserDto agentDto) {
+		this.agentDto = agentDto;
+	}
 
 	public Long getId() {
 		return id;

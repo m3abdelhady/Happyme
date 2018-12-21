@@ -42,6 +42,9 @@ public class CardTransaction extends ModificationAudit implements IEntity{
 	@Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
+	@ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+	private User agent;
+	
 	public Long getId() {
 		return id;
 	}
@@ -96,6 +99,14 @@ public class CardTransaction extends ModificationAudit implements IEntity{
 
 	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
+	}
+
+	public User getAgent() {
+		return agent;
+	}
+
+	public void setAgent(User agent) {
+		this.agent = agent;
 	}
 	
 	

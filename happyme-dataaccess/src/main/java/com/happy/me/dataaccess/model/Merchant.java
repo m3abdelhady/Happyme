@@ -59,7 +59,7 @@ public class Merchant extends ModificationAudit implements IEntity {
 	private User user;
 	
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER, orphanRemoval=true, mappedBy="merchant")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval=true, mappedBy="merchant")
     @OnDelete(action = OnDeleteAction.CASCADE)
 	List<Address> addresses;
     

@@ -2,6 +2,8 @@ package com.happy.me.common.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class BillLinesDto implements BaseDto {
 
 	private static final long serialVersionUID = 1L;
@@ -13,8 +15,10 @@ public class BillLinesDto implements BaseDto {
 
 	private BillHeaderDto billHeaderDto;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
 	private Date fromDate;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
 	private Date toDate;
 
 	public Long getId() {

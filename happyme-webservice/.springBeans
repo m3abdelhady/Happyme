@@ -14,6 +14,7 @@
 		<config>java:com.happy.me.controller.MerchantController</config>
 		<config>java:com.happy.me.controller.CouponsController</config>
 		<config>java:com.happy.me.controller.UserController</config>
+		<config>java:com.happy.me.controller.PaymentController</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

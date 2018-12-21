@@ -43,6 +43,7 @@ public class UserDto implements BaseDto {
 	
 	private MerchantDto merchantDto;
 	
+	private String jwt;
 	
 	public UserDto() {
 		this.active = true;
@@ -177,6 +178,24 @@ public class UserDto implements BaseDto {
 	public void setMerchantDto(MerchantDto merchantDto) {
 		this.merchantDto = merchantDto;
 	}
+
+	public String getJwt() {
+		return jwt;
+	}
+
+	public void setJwt(String jwt) {
+		this.jwt = jwt;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDto: {id:" + id + ", firstName:" + firstName + ", lastName:" + lastName + ", phone:" + phone
+				+ ", email:" + email + ", password:" + password + ", facebookId:" + facebookId + ", roleKey:" + roleKey
+				+ ", active:" + active + ", uid:" + uid + ", cpr:" + cpr + ", nationality:" + nationality
+				+ ", dateOfBirth:" + dateOfBirth + ", createdBy:" + createdBy + ", merchantDto:" + merchantDto + "}";
+	}
+	
+	
 	
 
 }

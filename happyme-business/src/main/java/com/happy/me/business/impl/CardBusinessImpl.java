@@ -25,6 +25,7 @@ import com.happy.me.dataaccess.model.UserCard;
 import com.happy.me.dataaccess.repository.CardSummaryRepository;
 import com.happy.me.dataaccess.repository.CardTransactionRepository;
 import com.happy.me.dataaccess.repository.UserCardRepository;
+import com.happy.me.dataaccess.repository.UserRepository;
 
 @Service("cardBusiness")
 public class CardBusinessImpl implements CardBusiness {
@@ -40,6 +41,9 @@ public class CardBusinessImpl implements CardBusiness {
 	
 	@Autowired
 	private CardSummaryRepository cardSummaryRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Override
 	public UserCardDto save(UserCardDto cardDto) throws BusinessException {
@@ -100,6 +104,7 @@ public class CardBusinessImpl implements CardBusiness {
 			UserCard card = new UserCard();
 			card.setId(cardTransactionDto.getUserCardDto().getId());
 			cardTransaction.setUserCard(card);
+			cardTransaction.setAgent(userRepository.findOne(cardTransactionDto.getAgentDto().getId()));
 			
 			cardTransactionRepository.save(cardTransaction);
 			

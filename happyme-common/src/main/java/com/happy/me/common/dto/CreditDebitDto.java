@@ -2,6 +2,8 @@ package com.happy.me.common.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CreditDebitDto implements BaseDto {
 
 	private static final long serialVersionUID = 1L;
@@ -13,7 +15,8 @@ public class CreditDebitDto implements BaseDto {
 	private double amount;
 
 	private BillHeaderDto billHeaderDto;
-
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd" , timezone="EET")
 	private Date actionDate;
 
 	private String type;

@@ -100,7 +100,7 @@ public class CardsServiceImpl implements CardsService {
 				throw new AgentNotFoundException("Card Not Found Exception");
 			}
 			if (!optionalUser.get().getRoleKey().getValue().equals(RoleKey.AGENT.getValue()) || optionalUser.get().getMerchantDto().getId() != merchantId) {
-				throw new NotAuthorizedException("Exception while get feedback");
+				throw new NotAuthorizedException("Agent Not assign to merchant");
 			}
 			
 			Double amount = Double.parseDouble(data.getAmount());
@@ -115,7 +115,8 @@ public class CardsServiceImpl implements CardsService {
 			cardTransactionDto.setAmount(amount.toString());
 			cardTransactionDto.setTransactionDate(new Date());
 			cardTransactionDto.setTransactionType(data.getTransactionType());
-						
+			cardTransactionDto.setAgentDto(new UserDto(agentId));			
+			
 			CardSummaryDto cardSummaryDto = null;
 			Optional<CardSummaryDto> dto = cardBusiness.getCardSummaryByCard(cardDto.get());
 			if (dto.isPresent()) {
@@ -151,6 +152,7 @@ public class CardsServiceImpl implements CardsService {
 			for (CardSummaryDto cardSummaryDto : cardSummaryDtos) {
 				System.out.println("CardsServiceImpl.getUserCards()");
 				CardDto cardDto = new CardDto();
+				cardDto.setId(cardSummaryDto.getUserCardDto().getId());
 				cardDto.setCardNumber(cardSummaryDto.getUserCardDto().getCardNumber());
 				cardDto.setMerchantId(cardSummaryDto.getUserCardDto().getMerchantDto().getId());
 				cardDto.setPoint((cardSummaryDto.getPoint() == null ? 0 : cardSummaryDto.getPoint()));
@@ -274,7 +276,7 @@ public class CardsServiceImpl implements CardsService {
 			cardTransactionDto.setAmount(reedemedAmount.toString());
 			cardTransactionDto.setTransactionDate(new Date());
 			cardTransactionDto.setTransactionType(data.getTransactionType());
-			
+			cardTransactionDto.setAgentDto(new UserDto(agentId));
 			
 			CardSummaryDto cardSummaryDto = null;
 			Optional<CardSummaryDto> dto = cardBusiness.getCardSummaryByCard(cardDto.get());

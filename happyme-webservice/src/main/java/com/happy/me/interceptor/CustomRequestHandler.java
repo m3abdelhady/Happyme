@@ -10,7 +10,7 @@ public class CustomRequestHandler extends HandlerInterceptorAdapter {
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		//long startTime = System.currentTimeMillis();
+//		long startTime = System.currentTimeMillis();
 //		request.setAttribute("startTime", startTime);
 		System.out.println("CustomRequestHandler.preHandle()");
 		return true;

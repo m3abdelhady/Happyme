@@ -2,6 +2,7 @@ package com.happy.me.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -34,8 +35,8 @@ import com.happy.me.service.exception.ResellerNotFoundException;
 import com.happy.me.service.exception.UserNameFoundException;
 import com.happy.me.service.exception.UserNotFoundException;
 import com.happy.me.service.exception.WrongPasswordException;
+import com.happy.me.utils.JwtHelper;
 import com.happy.me.utils.WebUtils;
-import org.apache.log4j.Logger;
 
 @RestController
 @RequestMapping("/user")
@@ -97,6 +98,7 @@ public class UserController {
 			if (!userDto.getRoleKey().getValue().equals(RoleKey.USER.getValue())) {
 				return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.FAILURE);
 			}
+			userDto.setJwt(JwtHelper.createJWT(userDto.getId().toString(), "issuer", userDto.toString(), 900000));
 			return ResponseEntity.ok(userDto);
 		} catch (UserNameFoundException e) {
 			logger.debug("UserController.login() failed while login email not found " + data.getEmail(), e);
@@ -119,6 +121,10 @@ public class UserController {
 			if (userDto.getRoleKey().getValue().equals(RoleKey.USER.getValue())) {
 				return WebUtils.prepareErrorResponse(HttpStatus.BAD_REQUEST, AppErrorCode.FAILURE);
 			}
+			if (userDto.getMerchantDto() != null && !userDto.getMerchantDto().isActive()) {
+				return WebUtils.prepareErrorResponse(HttpStatus.UNAUTHORIZED, AppErrorCode.MERCHANT_DISABLE);
+			}
+			userDto.setJwt(JwtHelper.createJWT(userDto.getId().toString(), "issuer", userDto.toString(), 900000));
 			return ResponseEntity.ok(userDto);
 		} catch (UserNameFoundException e) {
 			logger.debug("UserController.loginAdmin() failed while login email not found " + data.getEmail(), e);
